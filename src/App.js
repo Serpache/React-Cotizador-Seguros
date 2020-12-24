@@ -4,6 +4,7 @@ import Header from './components/Header'
 import Formulario from './components/Formulario'
 import Resumen from './components/Resumen'
 import Resultado from './components/Resultado'
+import Spinner from './components/Spinner'
 
 const Contenedor = styled.div`
     max-width: 600px;
@@ -17,6 +18,7 @@ const ContenedorFormulario = styled.div`
 
 function App() {
 
+  //Sate de datos principal
   const [resumen, guardarResumen] = useState({
     cotizacion: 0,
     datos: {
@@ -25,6 +27,8 @@ function App() {
       plan: ""
     }
   });
+  //State para el spinner
+  const [cargando, guardarCargando] = useState(false);
 
   const { cotizacion, datos } = resumen;
 
@@ -38,15 +42,19 @@ function App() {
       <ContenedorFormulario>
         <Formulario
           guardarResumen={guardarResumen}
+          guardarCargando={guardarCargando}
         />
+
+        {cargando ? <Spinner /> : null}
 
         <Resumen
           datos={datos}
         />
 
-        <Resultado
+        {!cargando ? <Resultado
           cotizacion={cotizacion}
-        />
+        /> : null}
+
       </ContenedorFormulario>
 
     </Contenedor>
